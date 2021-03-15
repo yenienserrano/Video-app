@@ -6,9 +6,9 @@ import {
   Container,
   Grid,
   Typography,
+  CardMedia,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { CardMedia } from "@material-ui/core";
 
 import { videoStartLoaded } from "../actions/video";
 import { ControlsComponent } from "./ControlsComponent";
