@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -62,6 +62,7 @@ const useStyles = makeStyles({
   },
   titleVideo: {
     height: 60,
+    fontWeight: 'bold',
   },
   descriptionVideo: {
     height: 100,
@@ -77,6 +78,7 @@ const useStyles = makeStyles({
 });
 
 export const ControlsComponent = ({ videoActivo }) => {
+  const [play, setPlay] = useState(false)
   const [showVolumen, setShowVolumen] = useState(null);
   const [showBrightness, setShowBrightness] = useState(null);
   const [showContrast, setShowContrast] = useState(null);
@@ -111,9 +113,11 @@ export const ControlsComponent = ({ videoActivo }) => {
 
   const handlePlay = () => {
     videoActivo.play();
+    setPlay(false)
   };
   const handleStop = () => {
     videoActivo.pause();
+    setPlay(true)
   };
 
   const handleBrightness = (event) => {
@@ -133,6 +137,7 @@ export const ControlsComponent = ({ videoActivo }) => {
     setShowContrast(null);
     setShowVolumen(null);
   };
+  
 
   return (
     <>
@@ -143,16 +148,21 @@ export const ControlsComponent = ({ videoActivo }) => {
           className={classes.controlsVideo}
           spacing={2}
         >
-          <Grid item xs={2}>
-            <IconButton aria-label="play" size="small" onClick={handlePlay}>
-              <PlayArrowIcon style={{ color: "white" }} />
-            </IconButton>
-          </Grid>
-          <Grid item xs={2}>
-            <IconButton size="small" onClick={handleStop}>
-              <PauseIcon style={{ color: "white" }} />
-            </IconButton>
-          </Grid>
+          {
+            play
+            ?
+            <Grid item xs={2}>
+              <IconButton aria-label="play" size="small" onClick={handlePlay}>
+                <PlayArrowIcon style={{ color: "white" }} />
+              </IconButton>
+            </Grid>
+            :
+            <Grid item xs={2}>
+              <IconButton size="small" onClick={handleStop}>
+                <PauseIcon style={{ color: "white" }} />
+              </IconButton>
+            </Grid>
+          }
           <Grid item xs={2}>
             <IconButton size="small" onClick={handleVolumen}>
               <VolumeUpIcon style={{ color: "white" }} />
@@ -276,7 +286,7 @@ export const ControlsComponent = ({ videoActivo }) => {
                     <CardActions>
                       <Button
                         size="small"
-                        style={{ color: "white" }}
+                        style={{ color: "#95E3FF" }}
                         onClick={() => handleChangeVideoActive(video)}
                       >
                         See video

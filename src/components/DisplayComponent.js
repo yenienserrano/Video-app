@@ -49,6 +49,7 @@ const useStyles = makeStyles({
   },
   titleVideo: {
     paddingTop: 20,
+    fontWeight: 'bold'
   },
   description: {
     paddingTop: 20,
