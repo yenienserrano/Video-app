@@ -109,6 +109,7 @@ export const ControlsComponent = ({ videoActivo }) => {
   const handleChangeVideoActive = (video) => {
     dispatch(vidoeActivo(video));
     window.scrollTo(0, 0);
+    setPlay(false)
   };
 
   const handlePlay = () => {
