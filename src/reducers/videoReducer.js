@@ -21,6 +21,12 @@ export const videoReducer = (state = initialState, action) => {
         videoActivo: action.payload,
       };
 
+    case types.removeVideoActivo:
+      return {
+        ...state,
+        videoActivo: null
+      }
+
     default:
       return state;
   }

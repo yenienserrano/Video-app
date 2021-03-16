@@ -22,3 +22,7 @@ export const vidoeActivo = (video) => ({
   type: types.chooseVideo,
   payload: video,
 });
+
+export const removeVideoActivo = () => ({
+  type: types.removeVideoActivo
+})

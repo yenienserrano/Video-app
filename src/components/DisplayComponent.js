@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import ReactPlayer from "react-player";
+import { makeStyles } from "@material-ui/core/styles";
 import {
+  AppBar,
+  Button,
   CircularProgress,
   Container,
   Grid,
+  Toolbar,
   Typography,
-  CardMedia,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import CloseIcon from "@material-ui/icons/Close";
 
-import { videoStartLoaded } from "../actions/video";
+import { removeVideoActivo, videoStartLoaded } from "../actions/video";
 import { ControlsComponent } from "./ControlsComponent";
 
 const useStyles = makeStyles({
@@ -20,28 +24,42 @@ const useStyles = makeStyles({
     justifyContent: "center",
     alignItems: "center",
   },
+  navbar: {
+    backgroundColor: "#202020",
+    width: "100%",
+  },
   titleApp: {
     marginTop: 10,
     marginBottom: 10,
   },
   containerMain: {
-    backgroundColor: "#fff",
+    backgroundColor: "#151515",
+    color: "#fff",
+    padding: 0,
   },
   container: {
     display: "flex",
     width: "100%",
+    backgroundColor: "#333333",
   },
   video: {
     height: "auto",
-    padding: 20,
     filter: (props) =>
       `brightness(${props.brightness}) contrast(${props.contrast})`,
   },
-  description: {
-    padding: 20,
-  },
   titleVideo: {
     paddingTop: 20,
+  },
+  description: {
+    paddingTop: 20,
+    paddingBottom: 20,
+    color: "#fff",
+  },
+  btnBack: {
+    color: "#fff",
+    position: "absolute",
+    top: 70,
+    right: -15,
   },
 });
 
@@ -60,6 +78,10 @@ export const DisplayComponent = () => {
     dispatch(videoStartLoaded());
   }, [dispatch]);
 
+  const handleRemoveVideo = () => {
+    dispatch(removeVideoActivo());
+  };
+
   if (loading) {
     return (
       <Container className={classes.loading}>
@@ -70,33 +92,31 @@ export const DisplayComponent = () => {
 
   return (
     <Container maxWidth={false} className={classes.containerMain}>
-      <Container>
-        <Typography
-          className={classes.titleApp}
-          variant="h3"
-          component="h1"
-          align="center"
-        >
-          Videos App
-        </Typography>
-
-        {videoActivo && (
-          <Grid container className={classes.container} spacing={2}>
+      <AppBar position="static" className={classes.navbar}>
+        <Toolbar>
+          <Typography variant="h6" className={classes.title}>
+            Videos
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      {videoActivo && (
+        <Container maxWidth={false} className={classes.container}>
+          <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
-              <CardMedia
-                component="video"
-                align="left"
-                className={classes.video}
-                poster={videoActivo.thumb}
-                src={videoActivo.sources[0]}
-                title={videoActivo.title}
-              />
+              <Container maxWidth="md">
+                <ReactPlayer
+                  className={classes.video}
+                  width="100%"
+                  height="100%"
+                  url={videoActivo.sources[0]}
+                  playing
+                />
+              </Container>
             </Grid>
-            <Grid item xs={12} md={6} align="center">
+            <Grid item xs={12} md={6}>
               <Typography
                 variant="h5"
                 component="h3"
-                align="center"
                 className={classes.titleVideo}
               >
                 {videoActivo.title}
@@ -109,10 +129,13 @@ export const DisplayComponent = () => {
               >
                 {videoActivo.description}
               </Typography>
+              <Button className={classes.btnBack} onClick={handleRemoveVideo}>
+                <CloseIcon />
+              </Button>
             </Grid>
           </Grid>
-        )}
-      </Container>
+        </Container>
+      )}
       <ControlsComponent videoActivo={video} />
     </Container>
   );
